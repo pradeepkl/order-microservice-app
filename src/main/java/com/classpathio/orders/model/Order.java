@@ -57,11 +57,19 @@ public class Order {
 	public void setPrice(double price) {
 		this.price = price;
 	}
-	
-	
-
 	public Set<LineItem> getLineItems() {
 		return lineItems;
+	}
+	
+	//scaffolding code
+	public void addLineItem(LineItem lineItem) {
+		this.lineItems.add(lineItem);
+		lineItem.setOrder(this);
+	}
+	
+	public void removeLineItem(LineItem lineItem) {
+		lineItems.remove(lineItem);
+		lineItem.setOrder(null);
 	}
 
 	@Override
