@@ -44,9 +44,19 @@ public class OrderService {
 				.ifPresent(existingOrder::setEmail);
 
 	}
-
+	//setting both sides order and line items explicitly
 	private void updateLineItems(Order existingOrder, Set<LineItem> newLineItems) {
-		//TODO
+		Optional.ofNullable(newLineItems)
+				.ifPresent(lineItems -> {
+					//remove the old items and add the new items
+					existingOrder.getLineItems().clear();
+					
+					//add the new line items
+					lineItems.forEach(item -> {
+						item.setOrder(existingOrder);
+						existingOrder.getLineItems().add(item);
+					});
+				});
 	}
 
 	public Order fetchOrderById(long id) {
