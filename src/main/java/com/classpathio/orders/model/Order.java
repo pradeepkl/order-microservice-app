@@ -2,10 +2,14 @@ package com.classpathio.orders.model;
 
 import java.time.LocalDate;
 import java.util.Objects;
+import java.util.Set;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -19,6 +23,9 @@ public class Order {
 	private String email;
 	private LocalDate orderDate;
 	private double price;
+	
+	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<LineItem> lineItems;
 	
 	private Order() {}
 	
@@ -49,6 +56,12 @@ public class Order {
 	}
 	public void setPrice(double price) {
 		this.price = price;
+	}
+	
+	
+
+	public Set<LineItem> getLineItems() {
+		return lineItems;
 	}
 
 	@Override
