@@ -4,6 +4,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.HttpStatus.OK;
 
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -32,6 +33,8 @@ public class OrderRestController {
 	@PostMapping
 	@ResponseStatus(CREATED)
 	public Order saveOrder(@RequestBody Order order) {
+		//this is to set the bidirectional relationship between order and lineitem
+		order.getLineItems().forEach(lineItem -> lineItem.setOrder(order));
 		return this.orderService.saveOrder(order);
 	}
 	
