@@ -26,7 +26,7 @@ public class ConditionalConfig {
 	@Bean
 	User userBasedOnBean() {
 		return new User();
-	}
+	} 
 	
 	@ConditionalOnMissingBean(name = "userBasedOnPropetyCondition")
 	@Bean
