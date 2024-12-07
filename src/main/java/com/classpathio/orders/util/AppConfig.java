@@ -13,20 +13,15 @@ public class AppConfig implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-
 		System.out.println(" Hello Spring Boot App !!");
-
 		String[] beans = this.applicationContext.getBeanDefinitionNames();
-
-		System.out.println("---------------------------------");
+		System.out.println("-------------****--------------------");
 		for (String bean : beans) {
 
-			if (bean.contains("user")) {
+			//if (bean.contains("user")) {
 				System.out.println(bean);
-			}
+			//}
 		}
-		System.out.println("---------------------------------");
-
+		System.out.println("--------------****-------------------");
 	}
-
 }
