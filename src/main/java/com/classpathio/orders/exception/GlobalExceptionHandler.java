@@ -10,8 +10,28 @@ public class GlobalExceptionHandler {
 	
 	@ExceptionHandler(exception = IllegalArgumentException.class)
 	@ResponseStatus(HttpStatus.NOT_FOUND)
-	public String handleInvalidOrderIdExceptions(IllegalArgumentException exception) {
-		return exception.getMessage();
+	public Error handleInvalidOrderIdExceptions(IllegalArgumentException exception) {
+		return new Error(100L, exception.getMessage());
 		
 	}
+}
+
+class Error {
+	private Long code;
+	private String message;
+	
+	public Error(Long code, String message) {
+		this.code = code;
+		this.message = message;
+	}
+
+	public Long getCode() {
+		return code;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+	
+	
 }
