@@ -32,7 +32,7 @@ public class OrderRestController {
 		this.orderService = orderService;
 	}
 	
-	@PostMapping(consumes = {"application/xml", "application/json"})
+	@PostMapping(consumes = {"application/json"})
 	@ResponseStatus(CREATED)
 	public Order saveOrder(@RequestBody @Validated Order order) {
 		//this is to set the bidirectional relationship between order and lineitem
@@ -40,7 +40,7 @@ public class OrderRestController {
 		return this.orderService.saveOrder(order);
 	}
 	
-	@GetMapping(produces = {"application/xml", "application/json"})
+	@GetMapping(produces = {"application/json"})
 	@ResponseStatus(OK)
 	public Map<String, Object> fetchAllOrders(
 			@RequestParam(name = "page", required = false, defaultValue = "1")int page, 
@@ -51,7 +51,7 @@ public class OrderRestController {
 		return this.orderService.fetchAllOrders(page, size, direction, field, flag);
 	}
 	
-	@GetMapping(value="/price", produces = {"application/xml", "application/json"} )
+	@GetMapping(value="/price", produces = {"application/json"} )
 	@ResponseStatus(OK)
 	public Set<Order> fetchAllOrdersByPriceRange(
 			@RequestParam(name = "min", required = false, defaultValue = "500")double min, 
@@ -59,18 +59,18 @@ public class OrderRestController {
 		return this.orderService.fetchOrdersByPriceRange(min, max);
 	}
 	
-	@GetMapping(value="/{id}", produces = {"application/xml", "application/json"})
+	@GetMapping(value="/{id}", produces = {"application/json"})
 	@ResponseStatus(OK)
 	public Order fetchOrderById(@PathVariable long id){
 		return this.orderService.fetchOrderById(id);
 	}
 	
-	@PutMapping(value="/{id}", consumes = {"application/xml", "application/json"})
+	@PutMapping(value="/{id}", consumes = {"application/json"})
 	public Order updateOrderById(@PathVariable long id, @RequestBody Order order) {
 		return this.orderService.updateOrderById(id, order);
 	}
 	
-	@DeleteMapping(value = "/{id}", consumes = {"application/xml", "application/json"})
+	@DeleteMapping(value = "/{id}", consumes = {"application/json"})
 	@ResponseStatus(NO_CONTENT)
 	public void deleteOrderById(@PathVariable long id) {
 		this.orderService.deleteOrderById(id);

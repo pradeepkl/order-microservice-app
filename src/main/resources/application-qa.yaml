@@ -1,9 +1,9 @@
 server:
-  port: 8222
+  port: 82844422
   
 app:
   loadUser: true
-  ordercount: 100
+  ordercount: 50
 
 debug: false
 
