@@ -56,6 +56,10 @@ public class OrderService {
 		//return Set.copyOf(this.repository.findAll());
 		return response;
 	}
+	
+	public Set<Order> fetchOrdersByPriceRange(double min, double max){
+		return this.repository.findByPriceBetween(min, max);
+	}
 
 	public Order updateOrderById(long id, Order updatedOrder) {
 		return this.repository.findById(id).map(existingOrder -> {

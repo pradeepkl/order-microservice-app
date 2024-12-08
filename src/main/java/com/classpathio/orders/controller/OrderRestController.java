@@ -5,6 +5,7 @@ import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.HttpStatus.OK;
 
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,6 +47,14 @@ public class OrderRestController {
 			@RequestParam(name = "order", required = false, defaultValue = "asc")String direction, 
 			@RequestParam(name = "field", required = false, defaultValue = "customerName")String field){
 		return this.orderService.fetchAllOrders(page, size, direction, field);
+	}
+	
+	@GetMapping("/price")
+	@ResponseStatus(OK)
+	public Set<Order> fetchAllOrdersByPriceRange(
+			@RequestParam(name = "min", required = false, defaultValue = "500")double min, 
+			@RequestParam(name = "max", required = false, defaultValue = "2000")double max){
+		return this.orderService.fetchOrdersByPriceRange(min, max);
 	}
 	
 	@GetMapping("/{id}")
