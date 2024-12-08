@@ -11,9 +11,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 
 @Entity
 @Table(name="orders")
+@Builder
+@AllArgsConstructor
 public class Order {
 	
 	@Id
