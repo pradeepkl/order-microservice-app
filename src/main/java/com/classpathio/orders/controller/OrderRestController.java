@@ -32,7 +32,7 @@ public class OrderRestController {
 		this.orderService = orderService;
 	}
 	
-	@PostMapping
+	@PostMapping(consumes = {"application/xml", "application/json"})
 	@ResponseStatus(CREATED)
 	public Order saveOrder(@RequestBody @Validated Order order) {
 		//this is to set the bidirectional relationship between order and lineitem
@@ -40,7 +40,7 @@ public class OrderRestController {
 		return this.orderService.saveOrder(order);
 	}
 	
-	@GetMapping
+	@GetMapping(consumes = {"application/xml", "application/json"})
 	@ResponseStatus(OK)
 	public Map<String, Object> fetchAllOrders(
 			@RequestParam(name = "page", required = false, defaultValue = "1")int page, 
@@ -51,7 +51,7 @@ public class OrderRestController {
 		return this.orderService.fetchAllOrders(page, size, direction, field, flag);
 	}
 	
-	@GetMapping("/price")
+	@GetMapping("/price" )
 	@ResponseStatus(OK)
 	public Set<Order> fetchAllOrdersByPriceRange(
 			@RequestParam(name = "min", required = false, defaultValue = "500")double min, 
