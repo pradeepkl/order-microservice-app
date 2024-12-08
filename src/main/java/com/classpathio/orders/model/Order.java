@@ -12,6 +12,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PastOrPresent;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
@@ -24,9 +29,18 @@ public class Order {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
+	@NotBlank(message = "customer name cannot be empty")
 	private String customerName;
+	
+	@Email(message="email should be in correct format")
+	@NotBlank(message = "Email field cannot be empty")
 	private String email;
+	
+	@PastOrPresent(message = "order date cannot be in the future")
 	private LocalDate orderDate;
+	
+	@Min(value = 500, message = "minimum order value should be 500")
+	@Max(value = 20000, message = "max order value should be 20000")
 	private double price;
 	
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)

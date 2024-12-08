@@ -32,33 +32,53 @@ public class OrderService {
 		return this.repository.save(order);
 	}
 
-	//instead of pull and sending all the records, we have to fetch in batches
-	public Map<String, Object> fetchAllOrders(int page, int size, String direction, String field) {
-		
+	// instead of pull and sending all the records, we have to fetch in batches
+	public Map<String, Object> fetchAllOrders(int page, int size, String direction, String field, boolean flag) {
+
 		Sort.Direction order = direction.equalsIgnoreCase("asc") ? ASC : DESC;
-		
+
 		PageRequest pageRequest = PageRequest.of(page, size, order, field);
-		Page<OrderDTO> pageResponse = this.repository.findBy(pageRequest);
-		
-		//construct the response and return the response
-		List<OrderDTO> orders = pageResponse.getContent();
-		int pageNumber = pageResponse.getNumber();
-		int recordsPerPage = pageResponse.getSize();
-		long totalRecords = pageResponse.getTotalElements();
-		int totalPage = pageResponse.getTotalPages();
-		
-		Map<String, Object> response = new LinkedHashMap<>();
-		response.put("total-pages", totalPage);
-		response.put("total-records", totalRecords);
-		response.put("current-page", pageNumber);
-		response.put("records-per-page", recordsPerPage);
-		response.put("data", orders);
-		
-		//return Set.copyOf(this.repository.findAll());
-		return response;
+		Page<OrderDTO> pageResponseDTO = null;
+		Page<Order> pageResponseOrder = null;
+		if (flag) {
+			pageResponseDTO = this.repository.findBy(pageRequest);
+		} else {
+			pageResponseOrder = this.repository.findAll(pageRequest);
+		}
+
+		// construct the response and return the response
+		if (flag) {
+			List<OrderDTO> orders = pageResponseDTO.getContent();
+			int pageNumber = pageResponseDTO.getNumber();
+			int recordsPerPage = pageResponseDTO.getSize();
+			long totalRecords = pageResponseDTO.getTotalElements();
+			int totalPage = pageResponseDTO.getTotalPages();
+
+			Map<String, Object> response = new LinkedHashMap<>();
+			response.put("total-pages", totalPage);
+			response.put("total-records", totalRecords);
+			response.put("current-page", pageNumber);
+			response.put("records-per-page", recordsPerPage);
+			response.put("data", orders);
+			return response;
+		} else {
+			List<Order> orders = pageResponseOrder.getContent();
+			int pageNumber = pageResponseOrder.getNumber();
+			int recordsPerPage = pageResponseOrder.getSize();
+			long totalRecords = pageResponseOrder.getTotalElements();
+			int totalPage = pageResponseOrder.getTotalPages();
+
+			Map<String, Object> response = new LinkedHashMap<>();
+			response.put("total-pages", totalPage);
+			response.put("total-records", totalRecords);
+			response.put("current-page", pageNumber);
+			response.put("records-per-page", recordsPerPage);
+			response.put("data", orders);
+			return response;
+		}
 	}
-	
-	public Set<Order> fetchOrdersByPriceRange(double min, double max){
+
+	public Set<Order> fetchOrdersByPriceRange(double min, double max) {
 		return this.repository.findByPriceBetween(min, max);
 	}
 
@@ -80,19 +100,19 @@ public class OrderService {
 				.ifPresent(existingOrder::setEmail);
 
 	}
-	//setting both sides order and line items explicitly
+
+	// setting both sides order and line items explicitly
 	private void updateLineItems(Order existingOrder, Set<LineItem> newLineItems) {
-		Optional.ofNullable(newLineItems)
-				.ifPresent(lineItems -> {
-					//remove the old items and add the new items
-					existingOrder.getLineItems().clear();
-					
-					//add the new line items
-					lineItems.forEach(item -> {
-						item.setOrder(existingOrder);
-						existingOrder.getLineItems().add(item);
-					});
-				});
+		Optional.ofNullable(newLineItems).ifPresent(lineItems -> {
+			// remove the old items and add the new items
+			existingOrder.getLineItems().clear();
+
+			// add the new line items
+			lineItems.forEach(item -> {
+				item.setOrder(existingOrder);
+				existingOrder.getLineItems().add(item);
+			});
+		});
 	}
 
 	public Order fetchOrderById(long id) {

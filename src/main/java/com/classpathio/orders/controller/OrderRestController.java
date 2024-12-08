@@ -45,8 +45,9 @@ public class OrderRestController {
 			@RequestParam(name = "page", required = false, defaultValue = "1")int page, 
 			@RequestParam(name = "size", required = false, defaultValue = "10")int size, 
 			@RequestParam(name = "order", required = false, defaultValue = "asc")String direction, 
-			@RequestParam(name = "field", required = false, defaultValue = "customerName")String field){
-		return this.orderService.fetchAllOrders(page, size, direction, field);
+			@RequestParam(name = "field", required = false, defaultValue = "customerName")String field,
+			@RequestParam(name = "min", required = false, defaultValue = "true") boolean flag){
+		return this.orderService.fetchAllOrders(page, size, direction, field, flag);
 	}
 	
 	@GetMapping("/price")
