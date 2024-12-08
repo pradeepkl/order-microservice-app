@@ -15,3 +15,17 @@ spring:
     username: sa
     password: welcome
     url: jdbc:h2:mem:testdb
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+    access:
+      default: read-only
+  endpoint:
+    health:
+      access: read-only
+      show-details: always
+      probes:
+        enabled: true          
