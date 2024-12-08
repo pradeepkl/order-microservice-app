@@ -6,7 +6,7 @@ public interface OrderDTO {
 	
 	String getCustomerName();
 	public String getEmail();
-	public LocalDate getOrderDate();
+	//public LocalDate getOrderDate();
 	public double getPrice();
 	
 	
