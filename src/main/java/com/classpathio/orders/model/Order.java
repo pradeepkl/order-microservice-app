@@ -1,6 +1,7 @@
 package com.classpathio.orders.model;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -67,6 +68,9 @@ public class Order {
 	
 	//scaffolding code
 	public void addLineItem(LineItem lineItem) {
+		if (this.lineItems == null) {
+			this.lineItems = new HashSet<>();
+		}
 		this.lineItems.add(lineItem);
 		lineItem.setOrder(this);
 	}
