@@ -33,9 +33,7 @@ public class GlobalExceptionHandler {
 		Set<String> errors = allErrors.stream().map(error -> error.getDefaultMessage()).collect(Collectors.toSet());
 		errorMap.put(new Error(200L, "validation error"), errors);
 		return errorMap;
-		
 	}
-	
 }
 
 class Error {

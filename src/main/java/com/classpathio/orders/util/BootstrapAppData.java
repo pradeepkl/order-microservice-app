@@ -32,7 +32,6 @@ public class BootstrapAppData {
 	// this method should be called after all the beans have been initialized
 	// this method should insert a set of fake data to the repository
 	public void bootstrapApplication() {
-
 		IntStream.range(0, ordersCount).forEach(index -> {
 			String name = faker.name().firstName();
 			Date date = faker.date().past(7, TimeUnit.DAYS);
