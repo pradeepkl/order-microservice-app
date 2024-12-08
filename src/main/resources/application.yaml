@@ -1,0 +1,16 @@
+server:
+  port: 8222
+app:
+  loadUser: true
+  ordercount: 100
+
+debug: false
+
+spring:
+  application:
+    name: order-microservice
+
+  datasource:
+    username: sa
+    password: welcome
+    url: jdbc:h2:mem:testdb
