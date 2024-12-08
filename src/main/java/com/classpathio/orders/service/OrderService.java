@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import com.classpathio.orders.dao.OrderJpaRepository;
 import com.classpathio.orders.model.LineItem;
 import com.classpathio.orders.model.Order;
+import com.classpathio.orders.model.OrderDTO;
 
 @Service
 public class OrderService {
@@ -37,10 +38,10 @@ public class OrderService {
 		Sort.Direction order = direction.equalsIgnoreCase("asc") ? ASC : DESC;
 		
 		PageRequest pageRequest = PageRequest.of(page, size, order, field);
-		Page<Order> pageResponse = this.repository.findAll(pageRequest);
+		Page<OrderDTO> pageResponse = this.repository.findBy(pageRequest);
 		
 		//construct the response and return the response
-		List<Order> orders = pageResponse.getContent();
+		List<OrderDTO> orders = pageResponse.getContent();
 		int pageNumber = pageResponse.getNumber();
 		int recordsPerPage = pageResponse.getSize();
 		long totalRecords = pageResponse.getTotalElements();
