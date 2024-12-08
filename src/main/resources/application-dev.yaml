@@ -18,11 +18,12 @@ spring:
 
 management:
   endpoints:
+    access:
+      default: read-only
     web:
       exposure:
         include: "*"
-    access:
-      default: read-only
+
   endpoint:
     health:
       access: read-only
