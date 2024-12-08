@@ -1,8 +1,17 @@
 package com.classpathio.orders.service;
 
+import static org.springframework.data.domain.Sort.Direction.ASC;
+import static org.springframework.data.domain.Sort.Direction.DESC;
+
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.classpathio.orders.dao.OrderJpaRepository;
@@ -22,8 +31,30 @@ public class OrderService {
 		return this.repository.save(order);
 	}
 
-	public Set<Order> fetchAllOrders() {
-		return Set.copyOf(this.repository.findAll());
+	//instead of pull and sending all the records, we have to fetch in batches
+	public Map<String, Object> fetchAllOrders(int page, int size, String direction, String field) {
+		
+		Sort.Direction order = direction.equalsIgnoreCase("asc") ? ASC : DESC;
+		
+		PageRequest pageRequest = PageRequest.of(page, size, order, field);
+		Page<Order> pageResponse = this.repository.findAll(pageRequest);
+		
+		//construct the response and return the response
+		List<Order> orders = pageResponse.getContent();
+		int pageNumber = pageResponse.getNumber();
+		int recordsPerPage = pageResponse.getSize();
+		long totalRecords = pageResponse.getTotalElements();
+		int totalPage = pageResponse.getTotalPages();
+		
+		Map<String, Object> response = new LinkedHashMap<>();
+		response.put("total-pages", totalPage);
+		response.put("total-records", totalRecords);
+		response.put("current-page", pageNumber);
+		response.put("records-per-page", recordsPerPage);
+		response.put("data", orders);
+		
+		//return Set.copyOf(this.repository.findAll());
+		return response;
 	}
 
 	public Order updateOrderById(long id, Order updatedOrder) {

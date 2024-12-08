@@ -4,8 +4,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.HttpStatus.OK;
 
-import java.util.Optional;
-import java.util.Set;
+import java.util.Map;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -40,8 +40,12 @@ public class OrderRestController {
 	
 	@GetMapping
 	@ResponseStatus(OK)
-	public Set<Order> fetchAllOrders(){
-		return this.orderService.fetchAllOrders();
+	public Map<String, Object> fetchAllOrders(
+			@RequestParam(name = "page", required = false, defaultValue = "1")int page, 
+			@RequestParam(name = "size", required = false, defaultValue = "10")int size, 
+			@RequestParam(name = "order", required = false, defaultValue = "asc")String direction, 
+			@RequestParam(name = "field", required = false, defaultValue = "customerName")String field){
+		return this.orderService.fetchAllOrders(page, size, direction, field);
 	}
 	
 	@GetMapping("/{id}")

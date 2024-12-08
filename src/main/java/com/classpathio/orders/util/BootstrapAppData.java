@@ -20,7 +20,7 @@ public class BootstrapAppData {
 
 	private OrderJpaRepository orderRepository;
 
-	private int ordersCount = 100;
+	private int ordersCount = 1000;
 	private Faker faker = new Faker();
 	
 	public BootstrapAppData(OrderJpaRepository orderRepository) {
