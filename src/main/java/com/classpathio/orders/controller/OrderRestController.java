@@ -40,7 +40,7 @@ public class OrderRestController {
 		return this.orderService.saveOrder(order);
 	}
 	
-	@GetMapping(consumes = {"application/xml", "application/json"})
+	@GetMapping(produces = {"application/xml", "application/json"})
 	@ResponseStatus(OK)
 	public Map<String, Object> fetchAllOrders(
 			@RequestParam(name = "page", required = false, defaultValue = "1")int page, 
@@ -51,7 +51,7 @@ public class OrderRestController {
 		return this.orderService.fetchAllOrders(page, size, direction, field, flag);
 	}
 	
-	@GetMapping("/price" )
+	@GetMapping(value="/price", produces = {"application/xml", "application/json"} )
 	@ResponseStatus(OK)
 	public Set<Order> fetchAllOrdersByPriceRange(
 			@RequestParam(name = "min", required = false, defaultValue = "500")double min, 
@@ -59,18 +59,18 @@ public class OrderRestController {
 		return this.orderService.fetchOrdersByPriceRange(min, max);
 	}
 	
-	@GetMapping("/{id}")
+	@GetMapping(value="/{id}", produces = {"application/xml", "application/json"})
 	@ResponseStatus(OK)
 	public Order fetchOrderById(@PathVariable long id){
 		return this.orderService.fetchOrderById(id);
 	}
 	
-	@PutMapping("/{id}")
+	@PutMapping(value="/{id}", consumes = {"application/xml", "application/json"})
 	public Order updateOrderById(@PathVariable long id, @RequestBody Order order) {
 		return this.orderService.updateOrderById(id, order);
 	}
 	
-	@DeleteMapping("/{id}")
+	@DeleteMapping(value = "/{id}", consumes = {"application/xml", "application/json"})
 	@ResponseStatus(NO_CONTENT)
 	public void deleteOrderById(@PathVariable long id) {
 		this.orderService.deleteOrderById(id);
