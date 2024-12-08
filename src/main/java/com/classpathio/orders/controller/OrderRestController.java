@@ -7,6 +7,7 @@ import static org.springframework.http.HttpStatus.OK;
 import java.util.Map;
 import java.util.Set;
 
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,7 +34,7 @@ public class OrderRestController {
 	
 	@PostMapping
 	@ResponseStatus(CREATED)
-	public Order saveOrder(@RequestBody Order order) {
+	public Order saveOrder(@RequestBody @Validated Order order) {
 		//this is to set the bidirectional relationship between order and lineitem
 		order.getLineItems().forEach(lineItem -> lineItem.setOrder(order));
 		return this.orderService.saveOrder(order);
